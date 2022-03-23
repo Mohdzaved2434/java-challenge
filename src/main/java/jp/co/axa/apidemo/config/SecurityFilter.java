@@ -48,8 +48,6 @@ public class SecurityFilter extends OncePerRequestFilter {
             } catch (ExpiredJwtException e) {
                 throw new MyCustomException(Constants.TOKEN_EXPIRED, ApiCodes.INVALID_DATA, HttpStatus.UNAUTHORIZED);
             }
-        } else {
-            throw new MyCustomException(Constants.INVALID_TOKEN, ApiCodes.INVALID_DATA, HttpStatus.UNAUTHORIZED);
         }
 
         // Once we get the token validate it.
@@ -63,6 +61,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
                 // After setting the Authentication in the context, we specify that the current user is authenticated. So it passes the
                 // Spring Security Configurations successfully.
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

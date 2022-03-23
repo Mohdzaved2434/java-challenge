@@ -6,5 +6,8 @@ public interface Constants {
     String TOKEN_EXPIRED = "JWT Token has been expired";
     String INVALID_TOKEN = "JWT Token does not begin with Bearer String";
     String NOT_FOUND = "User not found";
+    String USER_DISABLED = "User not found";
+    String INVALID_CREDENTIALS = "Credentials are invalid";
+
 
 }

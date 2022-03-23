@@ -49,17 +49,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        // Allow swagger to be accessed without authentication
-        web.ignoring().antMatchers("/v2/api-docs")//
-                .antMatchers("/swagger-resources/**")//
-                .antMatchers("/swagger-ui.html");
-    }
-
-    @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/api/v1/authenticate").permitAll() // dont authenticate this particular request
+                // dont authenticate this particular request
+                .authorizeRequests().antMatchers("/api/v1/login").permitAll()
+                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
                 .anyRequest().authenticated().and()  // all other requests need to be authenticated
                 // make sure we use stateless session; session won't be used to store user's state.
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
