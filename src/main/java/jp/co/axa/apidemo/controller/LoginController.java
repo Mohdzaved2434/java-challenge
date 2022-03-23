@@ -18,13 +18,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/api/v1")
 public class LoginController {
 
     @Autowired
@@ -37,10 +35,10 @@ public class LoginController {
     private UserDetailsServiceImp userDetailsService;
 
     @ApiOperation(value = "LoginController")
-    @ApiResponses(value = {//
+    @ApiResponses(value = {
             @ApiResponse(code = 500, message = "Something went wrong"),
             @ApiResponse(code = 401, message = "Invalid Credentials")})
-    @PostMapping(value = "/api/v1/login", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest request) throws Exception {
 
         authenticate(request.getUsername(), request.getPassword());
