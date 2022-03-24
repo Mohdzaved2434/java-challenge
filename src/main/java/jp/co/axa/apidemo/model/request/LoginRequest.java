@@ -1,18 +1,25 @@
 package jp.co.axa.apidemo.model.request;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
+@ApiModel("LoginRequest")
 public class LoginRequest implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
-    
+
+    @ApiModelProperty(name = "username", dataType = "String", required = true, example = "user123")
+    @NotBlank(message = "username is required")
     private String username;
+    @ApiModelProperty(name = "Password", dataType = "String", required = true, example = "abc@123")
+    @NotBlank(message = "password is required")
     private String password;
 
-    //need default constructor for JSON Parsing
-    public LoginRequest()
-    {
 
+    public LoginRequest() {//need default constructor for JSON Parsing
     }
 
     public LoginRequest(String username, String password) {
