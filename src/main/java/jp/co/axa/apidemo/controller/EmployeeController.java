@@ -1,14 +1,12 @@
 package jp.co.axa.apidemo.controller;
 
 import io.swagger.annotations.*;
-import jp.co.axa.apidemo.constants.ApiCodes;
 import jp.co.axa.apidemo.entity.Employee;
+import jp.co.axa.apidemo.helper.ResponseProvider;
 import jp.co.axa.apidemo.model.request.EmployeePostRequest;
 import jp.co.axa.apidemo.model.request.EmployeePutRequest;
-import jp.co.axa.apidemo.model.response.AxaApiResponse;
 import jp.co.axa.apidemo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,16 +29,11 @@ public class EmployeeController {
     @GetMapping("/employees")
     public ResponseEntity<?> get(@RequestParam(value = "employee_id", required = false) Long employeeId) {
 
-        AxaApiResponse apiResponse = new AxaApiResponse<>();
-        apiResponse.setStatus(HttpStatus.OK);
-        apiResponse.setCode(ApiCodes.SUCCESS);
-
         if (employeeId != null) {
-            apiResponse.setData(employeeService.getEmployee(employeeId));
+            return ResponseProvider.success(employeeService.getEmployee(employeeId));
         } else {
-            apiResponse.setData(employeeService.getEmployees());
+            return ResponseProvider.success(employeeService.getEmployees());
         }
-        return new ResponseEntity<AxaApiResponse<?>>(apiResponse, HttpStatus.OK);
     }
 
     @ApiOperation(value = "save employees")
@@ -52,13 +45,7 @@ public class EmployeeController {
     public ResponseEntity<?> post(@Valid @RequestBody EmployeePostRequest employeePostRequest) {
 
         Employee employee = employeeService.saveEmployee(employeePostRequest);
-
-        AxaApiResponse apiResponse = new AxaApiResponse<>();
-        apiResponse.setStatus(HttpStatus.OK);
-        apiResponse.setCode(ApiCodes.SUCCESS);
-        apiResponse.setData(employee);
-
-        return new ResponseEntity<AxaApiResponse<?>>(apiResponse, HttpStatus.OK);
+        return ResponseProvider.success(employee);
     }
 
     @ApiOperation(value = "update employees")
@@ -72,13 +59,7 @@ public class EmployeeController {
                                  @Valid @RequestParam("employee_id") Long employeeId) {
 
         Employee employee = employeeService.updateEmployee(putEmployee, employeeId);
-
-        AxaApiResponse apiResponse = new AxaApiResponse<>();
-        apiResponse.setStatus(HttpStatus.OK);
-        apiResponse.setCode(ApiCodes.SUCCESS);
-        apiResponse.setData(employee);
-
-        return new ResponseEntity<AxaApiResponse<?>>(apiResponse, HttpStatus.OK);
+        return ResponseProvider.success(employee);
     }
 
     @ApiOperation(value = "delete employees")
@@ -91,12 +72,6 @@ public class EmployeeController {
     public ResponseEntity<?> delete(@RequestParam(value = "employee_id") Long employeeId) {
 
         employeeService.deleteEmployee(employeeId);
-
-        AxaApiResponse apiResponse = new AxaApiResponse<>();
-        apiResponse.setStatus(HttpStatus.OK);
-        apiResponse.setCode(ApiCodes.SUCCESS);
-        apiResponse.setData("");
-
-        return new ResponseEntity<AxaApiResponse<?>>(apiResponse, HttpStatus.OK);
+        return ResponseProvider.success("");
     }
 }

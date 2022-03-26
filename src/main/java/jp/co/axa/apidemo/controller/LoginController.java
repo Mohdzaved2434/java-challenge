@@ -8,8 +8,8 @@ import jp.co.axa.apidemo.config.TokenProvider;
 import jp.co.axa.apidemo.constants.ApiCodes;
 import jp.co.axa.apidemo.constants.Constants;
 import jp.co.axa.apidemo.exception.MyCustomException;
+import jp.co.axa.apidemo.helper.ResponseProvider;
 import jp.co.axa.apidemo.model.request.LoginRequest;
-import jp.co.axa.apidemo.model.response.AxaApiResponse;
 import jp.co.axa.apidemo.model.response.LoginResponse;
 import jp.co.axa.apidemo.service.UserDetailsServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,19 +44,14 @@ public class LoginController {
             @ApiResponse(code = 500, message = "Something went wrong"),
             @ApiResponse(code = 401, message = "Invalid Credentials")})
     @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) throws Exception {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) {
 
         authenticate(request.getUsername(), request.getPassword());
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        AxaApiResponse response = new AxaApiResponse<>();
-        response.setStatus(HttpStatus.OK);
-        response.setCode(ApiCodes.SUCCESS);
-        response.setData(new LoginResponse(token));
-
-        return new ResponseEntity<AxaApiResponse<?>>(response, HttpStatus.OK);
+        return ResponseProvider.success(new LoginResponse(token));
     }
 
     private void authenticate(String username, String password) {
