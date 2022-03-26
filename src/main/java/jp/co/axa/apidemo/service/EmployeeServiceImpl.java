@@ -8,6 +8,10 @@ import jp.co.axa.apidemo.model.request.EmployeePostRequest;
 import jp.co.axa.apidemo.model.request.EmployeePutRequest;
 import jp.co.axa.apidemo.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@CacheConfig(cacheNames = "employee")
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
@@ -24,6 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
+    @Cacheable(key = "#employeeId")
     public Employee getEmployee(Long employeeId) {
         Optional<Employee> optEmp = employeeRepository.findById(employeeId);
         if (!optEmp.isPresent()) {
@@ -31,7 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return optEmp.get();
     }
-
+    
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
     }
@@ -44,17 +50,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public void deleteEmployee(Long employeeId) {
-        if (getEmployee(employeeId) != null) {
-            employeeRepository.deleteById(employeeId);
-        }
-    }
-
+    @CachePut(key = "#employeeId")
     public Employee updateEmployee(EmployeePutRequest putEmployee, Long employeeId) {
 
         Employee currentEmployee = getEmployee(employeeId);
         if (currentEmployee != null) {
-            currentEmployee.setId(employeeId);
+            currentEmployee.setEmployeeId(employeeId);
             if (putEmployee.getName() != null) {
                 currentEmployee.setName(putEmployee.getName());
             }
@@ -67,5 +68,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             currentEmployee = employeeRepository.save(currentEmployee);
         }
         return currentEmployee;
+    }
+
+    @CacheEvict(key = "#employeeId")
+    public void deleteEmployee(Long employeeId) {
+        if (getEmployee(employeeId) != null) {
+            employeeRepository.deleteById(employeeId);
+        }
     }
 }
