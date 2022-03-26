@@ -27,7 +27,7 @@ import javax.validation.Valid;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1")
-@Api(value = "Login Controller")
+@Api(value = "Login Controller", tags = "Login Controller")
 public class LoginController {
 
     @Autowired
@@ -59,7 +59,7 @@ public class LoginController {
         return new ResponseEntity<AxaApiResponse<?>>(response, HttpStatus.OK);
     }
 
-    private void authenticate(String username, String password) throws Exception {
+    private void authenticate(String username, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {

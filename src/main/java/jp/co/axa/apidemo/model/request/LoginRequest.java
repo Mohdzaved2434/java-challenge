@@ -11,13 +11,12 @@ public class LoginRequest implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
 
-    @ApiModelProperty(name = "username", dataType = "String", required = true, example = "user123")
+    @ApiModelProperty(name = "username", dataType = "String", required = true, example = "user123", position = 1)
     @NotBlank(message = "username is required")
     private String username;
-    @ApiModelProperty(name = "Password", dataType = "String", required = true, example = "abc@123")
+    @ApiModelProperty(name = "Password", dataType = "String", required = true, example = "abc@123", position = 2)
     @NotBlank(message = "password is required")
     private String password;
-
 
     public LoginRequest() {//need default constructor for JSON Parsing
     }
