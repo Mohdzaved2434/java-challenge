@@ -69,7 +69,7 @@ public class EmployeeController {
             @ApiResponse(code = 422, message = "Id not found")})
     @PutMapping(value = "/employees", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> put(@Valid @RequestBody EmployeePutRequest putEmployee,
-                                 @RequestParam("employee_id") Long employeeId) {
+                                 @Valid @RequestParam("employee_id") Long employeeId) {
 
         Employee employee = employeeService.updateEmployee(putEmployee, employeeId);
 
