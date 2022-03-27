@@ -68,7 +68,7 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 - Would have Implemented EH cache for getEmployees (all employee)    
 - Would have Implemented logging using spring AOP
 - Would have implemented spring actuator for checking health and monitoring
-- Would have implemented feature tests (integration)
+- Would have implemented feature tests (integration) and unit tests
 
 #### How to access Apis
 - first login with credentials (username: axa_user, password: password) and get the token
