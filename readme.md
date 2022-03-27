@@ -43,10 +43,54 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 - Is the application running as expected
 - No performance issues
 
+#### What I did
+- Add tests
+  
+- Change syntax
+- Protect controller end points
+   >>Implemented it using spring security with JWT
+- Add caching logic for database calls
+   >> Implemented it using EH cache
+- Improve doc and comments
+   >> Added swagger properly and comments
+- Fix any bug you might find
+   >> Fixed service issues in get, delete, update api and handled the exceptions
+
+  
+- Added Spring Global Exception handler and custom application exception (exception/*)
+- Used constants and api response codes (constants/*)
+- Created standard api response  (helper/ResponseProvider)
+- Separated models for controller and entity for DAO (model/* , entity/*)
+- Implemented swagger properly
+
+#### What I would have done if I had more time
+- Would have configured role based spring security with database and created one more Endpoint for user registration 
+- Would have Implemented EH cache for getEmployees (all employee)    
+- Would have Implemented logging using spring AOP
+- Would have implemented spring actuator for checking health and monitoring
+- Would have implemented feature tests (integration)
+
+#### How to access Apis
+- first login with credentials (username: axa_user, password: password) and get the token
+   - URL: http://localhost:8080/api/v1/login
+   - Request body 
+    >> {
+     "username": "axa_user",
+     "password": "password"
+     }
+  - Response Body 
+    >> {
+    "status": "OK",
+    "code": "SUCCESS",
+    "data": {
+    "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJheGFfdXNlciIsImV4cCI6MTY0ODI5ODA1NCwiaWF0IjoxNjQ4MjgwMDU0fQ.cX_leHVkwBP7PkHH-s747n3Itn0BbCRo3f-AIOoMqBs7YPTwdOB6Bio76R376YAtUUsUdaW2gTKbDrkJt3UVqg"
+    }
+    }
+- Add token in the Authorization header for accessing all APIs as following
+    >> Authorization Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJheGFfdXNlciIsImV4cCI6MTY0ODI5ODA1NCwiaWF0IjoxNjQ4MjgwMDU0fQ.cX_leHVkwBP7PkHH-s747n3Itn0BbCRo3f-AIOoMqBs7YPTwdOB6Bio76R376YAtUUsUdaW2gTKbDrkJt3UVqg
+
 #### Your experience in Java
-
-Please let us know more about your Java experience in a few sentences. For example:
-
-- I have 3 years experience in Java and I started to use Spring Boot from last year
-- I'm a beginner and just recently learned Spring Boot
-- I know Spring Boot very well and have been using it for many years
+- I have around 6 years of experience in Java/J2EE technologies like
+    >> Spring framework (Spring boot, Spring Transaction, Spring AOP, Spring Security, Spring MVC),
+     Hibernate, REST, SOAP webservices, JDBC, JSP, Servlet  
+- I have been using spring boot for last 4 years
